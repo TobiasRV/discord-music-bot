@@ -36,6 +36,7 @@ module.exports = {
         embeds: [embed],
       });
     } catch (error) {
+      console.log('error', error);
       return interaction.reply(`error playing song, url: ${url}`);
     }
   },
