@@ -38,8 +38,7 @@ async function createPlayer() {
   await player.extractors.loadDefault();
 }
 
-client.on("ready", async () => {
-  // Get all ids of the servers
+function setGuildCommands() {
   const guild_ids = client.guilds.cache.map(guild => guild.id);
   const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
   for (const guildId of guild_ids) {
@@ -48,6 +47,10 @@ client.on("ready", async () => {
       .then(() => console.log('Successfully updated commands for guild ' + guildId))
       .catch(console.error);
   }
+}
+
+client.on("ready", async () => {
+  setGuildCommands();
   await createPlayer();
 });
 
@@ -66,5 +69,11 @@ client.on("interactionCreate", async (interaction) => {
     });
   }
 });
+
+client.on("guildCreate", guild => {
+  console.log('Updating bot servers');
+  setGuildCommands();
+})
+
 
 client.login(process.env.DISCORD_TOKEN);
