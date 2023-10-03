@@ -12,7 +12,9 @@ module.exports = {
   execute: async ({ client, interaction }) => {
     try {
       const url = interaction.options.getString("url").trim();
+      console.log('=====================================================================');
       console.log('url', url);
+      console.log('=====================================================================');
       if (!interaction.member.voice.channel)
         return interaction.reply(
           "You need to be in a Voice Channel to play a song."
@@ -20,18 +22,16 @@ module.exports = {
       const player = useMainPlayer();
 
       const searchResult = await player.search(url, { requestedBy: interaction.user });
-      console.log('searchResult', searchResult);
       if(!searchResult){
         return interaction.reply("Song not found");
       }
 
-      const response = await player.play(interaction.member.voice.channel, url, {
+      const { track } = await player.play(interaction.member.voice.channel, url, {
         nodeOptions: {
           metadata: interaction,
         },
       });
-      console.log('response', response);
-      const { track } = response;
+
       let embed = new EmbedBuilder();
   
       embed
