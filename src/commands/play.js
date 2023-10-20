@@ -23,8 +23,12 @@ module.exports = {
       const player = useMainPlayer();
 
       const searchResult = await player.search(url, { requestedBy: interaction.user });
+      const { tracks } = searchResult;
       console.log('=====================================================================');
       console.log('searchResult', searchResult);
+      console.log('=====================================================================');
+      console.log('=====================================================================');
+      console.log('tracks', tracks);
       console.log('=====================================================================');
       if(!searchResult){
         return interaction.reply("Song not found");
