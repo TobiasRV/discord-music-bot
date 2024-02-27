@@ -1,0 +1,7 @@
+version: 3,7
+services:
+  discord-music-bot:
+    build: .
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
