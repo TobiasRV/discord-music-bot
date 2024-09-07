@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { useMainPlayer } = require('discord-player');
 
@@ -18,11 +19,22 @@ module.exports = {
     if (!url) {
       await interaction.reply('You need to provide a song url!');
     }
-
     const player = useMainPlayer();
+    let errorType;
+    const track = await player.play(voiceChannel, url).catch(async (error) => {
+      if (error.toString().includes('No results found for')) {
+        errorType = 'No results found';
+      } else {
+        errorType = 'Unknown error';
+      }
+    });
 
-    await player.play(voiceChannel, url);
-
-    await interaction.reply('Playing...');
+    if (!errorType) {
+      await interaction.reply(`${track.track.title} has been added to the queue`);
+    } else if (errorType === 'No results found') {
+      await interaction.reply(`No results found for the url: ${url}`);
+    } else {
+      await interaction.reply('An unknown error occurred');
+    }
   },
 };

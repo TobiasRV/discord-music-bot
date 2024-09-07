@@ -5,6 +5,8 @@ const { Player } = require('discord-player');
 const {
   Client, Collection, GatewayIntentBits, REST, Routes,
 } = require('discord.js');
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { YoutubeiExtractor } = require('discord-player-youtubei');
 const fs = require('fs');
 const path = require('path');
 
@@ -41,7 +43,8 @@ async function createPlayer() {
     },
   });
 
-  await player.extractors.loadDefault();
+  // await player.extractors.loadDefault();
+  player.extractors.register(YoutubeiExtractor, {});
 }
 
 function setGuildCommands() {
