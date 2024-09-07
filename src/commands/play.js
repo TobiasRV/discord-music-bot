@@ -20,6 +20,7 @@ module.exports = {
       await interaction.reply('You need to provide a song url!');
     }
     const player = useMainPlayer();
+
     let errorType;
     const track = await player.play(voiceChannel, url).catch(async (error) => {
       if (error.toString().includes('No results found for')) {
@@ -36,5 +37,6 @@ module.exports = {
     } else {
       await interaction.reply('An unknown error occurred');
     }
+    return true;
   },
 };
